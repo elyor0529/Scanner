@@ -1,0 +1,122 @@
+﻿@model DashboardViewModel[]
+@{
+    ViewBag.Title = "Dashboard";
+} 
+ 
+<div class="row pull-right">
+  @Html.Action("Upload")
+</div>
+<div class="clearfix"></div>
+<br />
+<!-- /.row -->
+<div class="row">
+
+    @for (var i = 0; i < Model.Length; i++)
+    {
+        if (i % 4 == 0)
+        {
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-print fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">@Model[i].Total</div>
+                                <div>@Model[i].Name</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="@Url.Action("Index", "Scanner", new { id = Model[i].Id })">
+                        <div class="panel-footer">
+                            <span class="pull-left">View Details</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+
+        if (i % 4 == 1)
+        {
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-print fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">@Model[i].Total</div>
+                                <div>@Model[i].Name</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="@Url.Action("Index", "Scanner", new { id = Model[i].Id })">
+                        <div class="panel-footer">
+                            <span class="pull-left">View Details</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+
+        if (i % 4 == 2)
+        {
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-yellow">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-print fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">@Model[i].Total</div>
+                                <div>@Model[i].Name</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="@Url.Action("Index", "Scanner", new { id = Model[i].Id })">
+                        <div class="panel-footer">
+                            <span class="pull-left">View Details</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+
+        if (i % 4 == 3)
+        {
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-red">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-print fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">@Model[i].Total</div>
+                                <div>@Model[i].Name</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="@Url.Action("Index", "Scanner", new { id = Model[i].Id })">
+                        <div class="panel-footer">
+                            <span class="pull-left">View Details</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+    }
+
+</div>
+<!-- /.row -->

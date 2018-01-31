@@ -1,0 +1,155 @@
+﻿@model Scanner
+@{
+    ViewBag.Title = "Highcharts";
+}
+
+@section css
+{
+
+    <link href="~/Assets/vendor/Highcharts/css/highcharts.css" rel="stylesheet" />
+    <style>
+        #chart3 {
+            width: 100%;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div id="chart3"></div>
+    </div>
+</div>
+
+@section js
+{
+    <script src="~/Assets/vendor/Highcharts/highcharts.js"></script>
+    <script src="~/Assets/vendor/Highcharts/modules/boost.js"></script>
+    <script src="~/Assets/vendor/Highcharts/modules/exporting.js"></script>
+    <script>
+
+        var chart;
+        var timer;
+        var id = 0;
+
+        function fillChart() {
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetData")/" + id,
+                data: {},
+                async: true,
+                cache: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                beforeSend: function (xhr) {
+                },
+                success: function (data, status, xhr) {
+
+                    if (!data) {
+                        clearInterval(timer);
+
+                        return;
+                    }
+
+                    if (chart) {
+
+                        for (var i = 0; i < data.length; i++) {
+                            chart.series[0].addPoint({
+                                x: data[i].x, y: data[i].y
+                            }, false);
+                        }
+
+                        chart.redraw();
+                    } else {
+                        var rows = [];
+                        for (var i = 0; i < data.length; i++) {
+                            rows.push([data[i].x, data[i].y]);
+                        }
+
+                        chart = Highcharts.chart('chart3',
+                            {
+                                chart: {
+                                    zoomType: 'xy',
+                                    height: '100%'
+                                },
+
+                                boost: {
+                                    useGPUTranslations: true,
+                                    usePreAllocated: true
+                                },
+
+                                xAxis: {
+                                    title: {
+                                        text: 'X label'
+                                    },
+                                    tickInterval: 1,
+                                    gridLineWidth: 1
+                                },
+
+                                yAxis: {
+                                    title: {
+                                        text: 'Y label'
+                                    },
+                                    tickInterval: 1,
+                                },
+
+                                title: {
+                                    text: ''
+                                },
+
+                                legend: {
+                                    enabled: false
+                                },
+
+                                series: [
+                                    {
+                                        type: 'scatter',
+                                        color: 'rgba(152,0,67,0.1)',
+                                        data: rows,
+                                        marker: {
+                                            radius: 0.1
+                                        },
+                                        tooltip: {
+                                            followPointer: false,
+                                            pointFormat: 'X:[{point.x:.1f} <br> Y:{point.y:.1f}]'
+                                        }
+                                    }
+                                ],
+
+                                credits: {
+                                    enabled: false
+                                }
+
+                            });
+
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.error(thrownError.responseText);
+                },
+                complete: function () {
+                }
+            });
+        }
+
+        $(function () {
+
+            //init first chart data
+            fillChart();
+
+            //run timer
+            timer = setInterval(function () {
+
+                //inc id
+                id++;
+
+                //load values
+                fillChart();
+
+            },
+                1000);
+
+
+        });
+    </script>
+}
