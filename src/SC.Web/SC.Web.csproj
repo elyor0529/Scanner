@@ -739,7 +739,6 @@
     <Content Include="Views\Home\_Upload.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Scanner_Scanner1_20180129.log" />
     <Content Include="Assets\vendor\amcharts\plugins\animate\bower.json" />
     <Content Include="Assets\vendor\amcharts\plugins\animate\LICENSE" />
     <Content Include="Assets\vendor\amcharts\plugins\animate\package.json" />
@@ -770,6 +769,7 @@
     <Content Include="Assets\vendor\amcharts\plugins\responsive\package.json" />
     <Content Include="Assets\vendor\amcharts\plugins\responsive\readme.md" />
     <Content Include="Assets\vendor\amcharts\plugins\responsive\responsive.min.js.map" />
+    <Content Include="App_Data\Scanner_Scanner1_20180206.log" />
     <None Include="Properties\PublishProfiles\locale.pubxml" />
     <Content Include="Views\Scanner\Chart2.cshtml" />
     <Content Include="Views\Scanner\Chart3.cshtml" />

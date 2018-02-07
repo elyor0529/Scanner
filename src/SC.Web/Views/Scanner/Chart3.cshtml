@@ -1,6 +1,5 @@
 ﻿@model Scanner
 @{
-    ViewBag.Title = "Highcharts";
 }
 
 @section css
@@ -51,74 +50,101 @@
                         return;
                     }
 
+                    var rows = [];
+                    for (var i = 0; i < data.length; i++) {
+                        rows.push([data[i].x, data[i].y]);
+                    }
+
                     if (chart) {
 
-                        for (var i = 0; i < data.length; i++) {
-                            chart.series[0].addPoint({
-                                x: data[i].x, y: data[i].y
-                            }, false);
-                        }
+                        chart.series[0].update({
+                            data: rows
+                        }, true);
 
-                        chart.redraw();
                     } else {
-                        var rows = [];
-                        for (var i = 0; i < data.length; i++) {
-                            rows.push([data[i].x, data[i].y]);
-                        }
 
                         chart = Highcharts.chart('chart3',
                             {
-                                chart: {
-                                    zoomType: 'xy',
-                                    height: '100%'
+                                title: {
+                                    text: ''
                                 },
-
+                                legend: {
+                                    enabled: false
+                                },
                                 boost: {
                                     useGPUTranslations: true,
                                     usePreAllocated: true
                                 },
-
-                                xAxis: {
-                                    title: {
-                                        text: 'X label'
-                                    },
-                                    tickInterval: 1,
-                                    gridLineWidth: 1
-                                },
-
-                                yAxis: {
-                                    title: {
-                                        text: 'Y label'
-                                    },
-                                    tickInterval: 1,
-                                },
-
-                                title: {
-                                    text: ''
-                                },
-
-                                legend: {
+                                credits: {
                                     enabled: false
                                 },
-
+                                chart: {
+                                    zoomType: 'xy'
+                                },
+                                yAxis: {
+                                    title: {
+                                        text: 'Y-axis'
+                                    },
+                                    gridLineWidth: 1,
+                                    startOnTick: true,
+                                    endOnTick: true,
+                                    labels: {
+                                        formatter: function () {
+                                            if (this.value != 0 && (this.value > 1.e4 || this.value < 1.e-4)) {
+                                                return this.value.toExponential();
+                                            } else {
+                                                return this.value;
+                                            }
+                                        }
+                                    }
+                                },
+                                xAxis: {
+                                    title: {
+                                        text: 'X-axis'
+                                    },
+                                    gridLineWidth: 1,
+                                    startOnTick: true,
+                                    endOnTick: true,
+                                    labels: {
+                                        formatter: function () {
+                                            if (this.value != 0 && (this.value > 1.e4 || this.value < 1.e-4)) {
+                                                return this.value.toExponential();
+                                            } else {
+                                                return this.value;
+                                            }
+                                        }
+                                    }
+                                },
+                                plotOptions: {
+                                    line: {
+                                        lineWidth: 1
+                                    },
+                                    series: {
+                                        animation: false,
+                                        enableMouseTracking: true,
+                                        marker: { radius: 2 },
+                                        step: 'center'
+                                    }
+                                },
+                                tooltip: {
+                                    formatter: function () {
+                                        var x = this.x;
+                                        var y = this.y;
+                                        if (x != 0 && (x > 1.e4 || x < 1.e-4)) {
+                                            x = x.toExponential(6);
+                                        }
+                                        if (y != 0 && (y > 1.e4 || y < 1.e-4)) {
+                                            y = y.toExponential(6);
+                                        }
+                                        return '(<b>' + x + '</b>; <b>' + y + '</b>)';
+                                    }
+                                },
                                 series: [
                                     {
                                         type: 'scatter',
-                                        color: 'rgba(152,0,67,0.1)',
-                                        data: rows,
-                                        marker: {
-                                            radius: 0.1
-                                        },
-                                        tooltip: {
-                                            followPointer: false,
-                                            pointFormat: 'X:[{point.x:.1f} <br> Y:{point.y:.1f}]'
-                                        }
+                                        data: rows
                                     }
                                 ],
-
-                                credits: {
-                                    enabled: false
-                                }
 
                             });
 

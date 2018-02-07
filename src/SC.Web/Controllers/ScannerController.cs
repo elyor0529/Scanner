@@ -21,10 +21,11 @@ namespace SC.Web.Controllers
         private readonly IDataTupleService _tupleService;
         private readonly ITupleItemService _itemService;
         private static readonly IList<object[]> _results;
+        private const string FileName = "Scanner_Scanner1_20180206.log";
 
         static ScannerController()
         {
-            var path = System.Web.HttpContext.Current.Server.MapPath("~/App_Data/Scanner_Scanner1_20180129.log");
+            var path = System.IO.Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/App_Data"),FileName);
 
             _results = ParserHelper.GetPoints(path);
         }
@@ -42,16 +43,22 @@ namespace SC.Web.Controllers
 
         public ActionResult Chart1()
         {
+            ViewBag.Title = FileName;
+
             return View();
         }
 
         public ActionResult Chart2()
         {
+            ViewBag.Title = FileName;
+
             return View();
         }
 
         public ActionResult Chart3()
         {
+            ViewBag.Title = FileName;
+
             return View();
         }
 

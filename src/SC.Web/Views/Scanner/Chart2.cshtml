@@ -1,6 +1,5 @@
 ﻿@model Scanner
 @{
-    ViewBag.Title = "C3";
 }
 
 @section css
@@ -58,6 +57,9 @@
                     }
 
                     if (chart) {
+
+                        chart.unload();
+                        
                         chart.load({
                             columns:rows
                         });
@@ -96,9 +98,9 @@
                                 }
                             },
                             tooltip: {
-                                format: {
+                                format: { 
                                     title: function(d) {
-                                        return 'x | ' + d;
+                                        return '    x | ' + d;
                                     }
                                 }
                             }
