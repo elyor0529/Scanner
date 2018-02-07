@@ -58,6 +58,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Scanner_Scanner1_20180206.log" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SC.Model\SC.Model.csproj">
