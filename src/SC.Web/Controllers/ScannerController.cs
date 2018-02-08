@@ -59,19 +59,23 @@ namespace SC.Web.Controllers
         [HttpPost]
         public ActionResult GetData(int id)
         {
-            var results = (IList<object[]>)WebCache.Get(FileName);
+            var lines = (string[])WebCache.Get(FileName);
 
-            if (results == null)
+            if (lines == null)
             {
                 lock (CacheLocker)
                 {
-                    results = ParserHelper.GetPoints(FilePath);
+                    lines = ParserHelper.ReadPointLines(FilePath);
 
-                    WebCache.Set(FileName, results);
+                    WebCache.Set(FileName, lines);
                 }
             }
 
-            return Json((id == results.Count) ? null : results[id], JsonRequestBehavior.AllowGet);
+            IList<object> values = null;
+            if (lines.Length - 1 >= id)
+                values = lines[id].ExtractPointValues();
+
+            return Json(values, JsonRequestBehavior.AllowGet);
         }
 
     }
