@@ -21,6 +21,8 @@ namespace SC.Web.Controllers
         private readonly IDataTupleService _tupleService;
         private readonly ITupleItemService _itemService;
         private const string FileName = "Scanner_Scanner1_20180206.log";
+        private static readonly string FilePath = System.IO.Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/App_Data"), FileName);
+        private static readonly object CacheLocker = new object();
 
         public ScannerController(IScannerService scannerService)
         {
@@ -58,19 +60,18 @@ namespace SC.Web.Controllers
         public ActionResult GetData(int id)
         {
             var results = (IList<object[]>)WebCache.Get(FileName);
+
             if (results == null)
             {
-                var path = System.IO.Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/App_Data"), FileName);
+                lock (CacheLocker)
+                {
+                    results = ParserHelper.GetPoints(FilePath);
 
-                results = ParserHelper.GetPoints(path);
-
-                WebCache.Set(FileName, results);
+                    WebCache.Set(FileName, results);
+                }
             }
 
-            if (id == results.Count)
-                return Json(null, JsonRequestBehavior.AllowGet);
-
-            return Json(results[id], JsonRequestBehavior.AllowGet);
+            return Json((id == results.Count) ? null : results[id], JsonRequestBehavior.AllowGet);
         }
 
     }
