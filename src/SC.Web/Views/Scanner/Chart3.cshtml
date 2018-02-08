@@ -57,9 +57,8 @@
 
                     if (chart) {
 
-                        chart.series[0].update({
-                            data: rows
-                        }, true);
+                        chart.series[0].setData(rows, false);
+                        chart.redraw();
 
                     } else {
 
