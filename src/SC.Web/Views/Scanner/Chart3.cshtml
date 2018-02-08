@@ -57,7 +57,11 @@
 
                     if (chart) {
 
-                        chart.series[0].setData(rows, false);
+                        chart.series[0].remove();
+                        chart.addSeries({
+                            type: 'scatter',
+                            data: rows
+                        }, false);
                         chart.redraw();
 
                     } else {
